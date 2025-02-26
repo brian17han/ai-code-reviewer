@@ -8,16 +8,29 @@ inputs:
     description: "OpenAI API key for GPT."
     required: true
   OPENAI_API_MODEL:
-    description: "OpenAI API model."
+    description: "OpenAI API model to use for generating reviews."
     required: false
-    default: "gpt-4"
-  exclude:
-    description: "Glob patterns to exclude files from the diff analysis"
+    default: "o3-mini-2025-01-31"
+  EXCLUDE_PATTERNS:
+    description: "Comma-separated list of glob patterns to exclude files from the diff analysis."
     required: false
     default: ""
+  CUSTOM_PROMPT:
+    description: "Custom extra prompt for the AI code review."
+    required: false
+    default: ""
+  FALLBACK_TO_GENERAL_COMMENT:
+    description: "When set to true, will post as a general PR comment if inline commenting fails."
+    required: false
+    default: "true"
 runs:
-  using: "node16"
+  using: "node20"
   main: "dist/index.js"
 branding:
   icon: "aperture"
   color: "green"
+outputs:
+  commentsCount:
+    description: "The number of comments made by the AI."
+  totalCost:
+    description: "The total estimated cost of the API usage."
